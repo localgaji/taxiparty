@@ -1,5 +1,5 @@
 package com.localgaji.taxi.__global__.exception;
-import com.localgaji.taxi.__global__.ApiUtil;
+import com.localgaji.taxi.__global__.utils.ApiUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
