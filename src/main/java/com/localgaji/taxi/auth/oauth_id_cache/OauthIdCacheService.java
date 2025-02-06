@@ -24,7 +24,7 @@ public class OauthIdCacheService {
     // 인증 캐시 조회
     public OauthIdCache findOauthIdByCode(String code) {
         return oauthIdCacheRepository.findByCode(code)
-                .orElseThrow(()-> new CustomException(ErrorType.ETC_ERROR));
+                .orElseThrow(()-> new CustomException(ErrorType.NOT_FOUND));
     }
 
     // 인증 캐시 삭제
