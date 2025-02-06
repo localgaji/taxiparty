@@ -63,6 +63,7 @@ public class JwtService {
         return Long.parseLong(sub);
     }
 
+    /** AuthorizationHeader 헤더에서 jwt 클레임 추출 (토큰 없음, 무효, 만료 시 커스텀 에러 생성) */
     public Claims getClaimsByAuthorizationHeader(String authorization) {
         String jwt = eliminateTypeKeyword(authorization);
         return getClaimsByJwt(jwt);
