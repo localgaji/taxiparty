@@ -16,10 +16,10 @@ public class User extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @NotNull @NotNull
+    @Column @NotNull
     private String userName;
 
-    @NotNull @NotNull
+    @Column @NotNull
     private String email;
 
 }
