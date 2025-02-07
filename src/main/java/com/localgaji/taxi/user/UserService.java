@@ -19,11 +19,4 @@ public class UserService {
         userRepository.save(newUser);
         return newUser;
     }
-
-    public User findUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(()->
-                        new CustomException(ErrorType.MEMBER_NOT_FOUND)
-                );
-    }
 }
