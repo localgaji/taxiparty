@@ -16,6 +16,18 @@ public class ResponseUser {
 
         public GetMyInfoResponse(User user) {
             this.userName = user.getUserName();
+            this.email = user.getEmail();
+        }
+    }
+
+    @Getter
+    @Schema(description = "타인 정보 조회")
+    public static class GetUserInfoResponse {
+        @Schema(description = "회원 이름")
+        String userName;
+
+        public GetUserInfoResponse(User user) {
+            this.userName = user.getUserName();
         }
     }
 }
