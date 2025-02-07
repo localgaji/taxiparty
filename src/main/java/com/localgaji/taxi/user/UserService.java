@@ -1,7 +1,5 @@
 package com.localgaji.taxi.user;
 
-import com.localgaji.taxi.__global__.exception.CustomException;
-import com.localgaji.taxi.__global__.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
