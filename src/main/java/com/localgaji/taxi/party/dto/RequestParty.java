@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class RequestParty {
     @Schema(description = "팟 만들기")
     public record PostPartyReq(
-            @Schema(description = "")
             PlaceDTO pickup,
             PlaceDTO dropoff,
             LocalDateTime pickupTime,
@@ -34,6 +33,7 @@ public class RequestParty {
     ) {
     }
 
+    @Schema(description = "조건에 맞는 파티 리스트 검색")
     public record getPartyListReq(
             CoordinateDTO departure,
             CoordinateDTO dropoff,
