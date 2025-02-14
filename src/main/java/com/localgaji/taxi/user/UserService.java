@@ -13,13 +13,14 @@ import static com.localgaji.taxi.auth.dto.RequestAuth.*;
 public class UserService {
     private final UserRepository userRepository;
 
-    // 유저 추가
+    /** 유저 추가 */
     public User makeNewUser(SignUpRequest signUpRequest) {
         User newUser = signUpRequest.toEntity();
         userRepository.save(newUser);
         return newUser;
     }
 
+    /** util: id로 entity 찾기 (없으면 404) */
     public User findUserById(Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(()->
