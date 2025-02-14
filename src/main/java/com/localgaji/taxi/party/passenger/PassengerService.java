@@ -67,7 +67,7 @@ public class PassengerService {
         // 방장 권한 체크
         if (!isManagerInParty(manager, party)) {
             throw new CustomException(ErrorType.FORBIDDEN);
-        };
+        }
 
         // 쫓아낼 유저 찾기
         User kickUser = userService.findUserById(kickUserId);
