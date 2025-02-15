@@ -1,14 +1,14 @@
-package com.localgaji.taxi.place.dto;
+package com.localgaji.taxi.address.dto;
 
-import com.localgaji.taxi.place.Place;
-import com.localgaji.taxi.place.address.RoadNameAddress;
+import com.localgaji.taxi.address.Address;
+import com.localgaji.taxi.address.type.RoadNameAddress;
 
 public record PlaceDTO (
         String placeName,
         RoadNameAddress roadNameAddress
 ) {
-    public Place toEntity() {
-        return Place.builder()
+    public Address toEntity() {
+        return Address.builder()
                 .roadNameAddress(this.roadNameAddress)
                 .placeName(this.placeName)
                 .build();
