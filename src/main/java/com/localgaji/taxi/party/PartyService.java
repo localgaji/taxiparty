@@ -6,7 +6,7 @@ import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.party.passenger.PassengerRepository;
 import com.localgaji.taxi.party.passenger.PassengerService;
 import com.localgaji.taxi.party.passenger.PassengerStatus;
-import com.localgaji.taxi.place.PlaceService;
+import com.localgaji.taxi.address.PlaceService;
 import com.localgaji.taxi.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

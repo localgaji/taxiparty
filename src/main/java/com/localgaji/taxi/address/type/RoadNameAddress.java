@@ -1,4 +1,4 @@
-package com.localgaji.taxi.place.address;
+package com.localgaji.taxi.address.type;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

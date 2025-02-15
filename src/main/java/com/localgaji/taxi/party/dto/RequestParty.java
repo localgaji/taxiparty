@@ -1,7 +1,7 @@
 package com.localgaji.taxi.party.dto;
 
 import com.localgaji.taxi.party.Party;
-import com.localgaji.taxi.place.dto.PlaceDTO;
+import com.localgaji.taxi.address.dto.PlaceDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -20,8 +20,8 @@ public class RequestParty {
                     .description(this.description)
                     .pickupTime(this.pickupTime)
                     .maxHeadcount(this.maxHeadcount)
-                    .pickupPlace(this.pickup.toEntity())
-                    .dropoffPlace(this.dropoff.toEntity())
+                    .pickupAddress(this.pickup.toEntity())
+                    .dropoffAddress(this.dropoff.toEntity())
                 .build();
         }
 

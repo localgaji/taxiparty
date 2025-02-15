@@ -21,8 +21,8 @@ public class ResponseParty {
     ) {
         public GetPartyRes(Party party) {
             this(
-                    party.getPickupPlace().getPlaceName(),
-                    party.getDropoffPlace().getPlaceName(),
+                    party.getPickupAddress().getPlaceName(),
+                    party.getDropoffAddress().getPlaceName(),
                     party.getPickupTime(),
                     party.getHeadcount(),
                     party.getMaxHeadcount(),
@@ -55,7 +55,7 @@ public class ResponseParty {
             public PartyBriefDTO(Party party, String chatPreview, int chatNoRead) {
                 this(
                         party.getPartyId(),
-                        party.getDropoffPlace().getPlaceName(),
+                        party.getDropoffAddress().getPlaceName(),
                         party.getPickupTime(),
                         party.getHeadcount(),
                         party.getMaxHeadcount(),

@@ -1,4 +1,4 @@
-package com.localgaji.taxi.place;
+package com.localgaji.taxi.address;
 
 import com.localgaji.taxi.party.Party;
 import jakarta.transaction.Transactional;
@@ -12,8 +12,8 @@ public class PlaceService {
 
     @Transactional
     public void savePartyPlaces(Party party) {
-        Place pickup = party.getPickupPlace();
-        Place dropoff = party.getDropoffPlace();
+        Address pickup = party.getPickupAddress();
+        Address dropoff = party.getDropoffAddress();
 
         placeRepository.save(pickup);
         placeRepository.save(dropoff);
