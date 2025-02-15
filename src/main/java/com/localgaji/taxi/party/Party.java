@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,6 +28,12 @@ public class Party {
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "account_id")
     private Account account;
+
+    @Column(columnDefinition = "POINT SRID 4326") @NotNull
+    private Point pickupPoint;
+
+    @Column(columnDefinition = "POINT SRID 4326") @NotNull
+    private Point dropoffPoint;
 
     @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "pickup_address_id")
     private Address pickupAddress;
