@@ -2,7 +2,7 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.party.passenger.Passenger;
-import com.localgaji.taxi.place.Place;
+import com.localgaji.taxi.address.Address;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +25,15 @@ public class Party {
     @Column @NotNull
     private LocalDateTime pickupTime;
 
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "account_id")
+    private Account account;
+
+    @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "pickup_address_id")
+    private Address pickupAddress;
+
+    @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "dropoff_address_id")
+    private Address dropoffAddress;
+
     @Column @NotNull
     private Integer maxHeadcount;
 
@@ -34,18 +43,8 @@ public class Party {
     @Column
     private Integer fare;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
-    private Account account;
-
     @Column
     private String description;
-
-    @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "pickup_place_id")
-    private Place pickupPlace;
-
-    @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "dropoff_place_id")
-    private Place dropoffPlace;
 
     @OneToMany(mappedBy = "party") @Builder.Default @NotNull
     private List<Passenger> passengers = new ArrayList<>();
