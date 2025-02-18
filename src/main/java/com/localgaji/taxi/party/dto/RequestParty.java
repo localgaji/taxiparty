@@ -38,7 +38,7 @@ public class RequestParty {
     }
 
     @Schema(description = "조건에 맞는 파티 리스트 검색")
-    public record getPartyListReq(
+    public record GetPartiesSearchReq(
             CoordinateDTO departure,
             CoordinateDTO dropoff,
             LocalDateTime pickupTime
