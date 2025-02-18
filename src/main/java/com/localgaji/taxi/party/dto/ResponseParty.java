@@ -2,11 +2,12 @@ package com.localgaji.taxi.party.dto;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.party.Party;
-import com.localgaji.taxi.party.passenger.Passenger;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.localgaji.taxi.party.dto.LocationDTO.*;
 
 public class ResponseParty {
     @Schema(description = "파티 상세 정보")
