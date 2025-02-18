@@ -11,6 +11,7 @@ import com.localgaji.taxi.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,10 @@ public class PartyService {
     /** 파티 개설 */
     @Transactional
     public void makeParty(User user, PostPartyReq dto) {
-        Party party = dto.toEntity();
+        // dto -> entity
+        Point pickupPoint = locationService.newPoint(dto.pickup().coordinate());
+        Point dropoffPoint = locationService.newPoint(dto.dropoff().coordinate());
+        Party party = dto.toEntity(pickupPoint, dropoffPoint);
 
         // 승/하차 주소 entity 저장
         addressService.savePartyPlaces(party);
