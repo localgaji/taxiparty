@@ -66,24 +66,4 @@ public class ResponseParty {
             }
         }
     }
-
-    @Schema(description = "팀원 리스트")
-    public record GetPassengersRes(
-            List<PassengerInfo> passengers
-    ) {
-    }
-
-    public record PassengerInfo(
-            Long userId,
-            String userName,
-            Boolean isManager
-    ){
-        public PassengerInfo(Passenger passenger) {
-            this(
-                    passenger.getUser().getUserId(),
-                    passenger.getUser().getUserName(),
-                    passenger.getIsManager()
-            );
-        }
-    }
 }
