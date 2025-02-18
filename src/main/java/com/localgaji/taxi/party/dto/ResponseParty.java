@@ -66,4 +66,38 @@ public class ResponseParty {
             }
         }
     }
+
+    @Schema(description = "승차/하차 위치 자세히")
+    public record GetLocationsRes(
+            AddressDTO pickup,
+            AddressDTO dropoff
+    ) {
+    }
+
+    @Schema(description = "조건에 맞는 파티 리스트 검색")
+    public record GetPartiesSearchRes(
+            List<SearchPartyDTO> partyList,
+            Boolean hasNext
+    ) {
+    }
+
+    public record SearchPartyDTO(
+            Long partyId,
+            String pickup,
+            String dropoff,
+            String departureToPickup,
+            LocalDateTime pickupTime,
+            String description
+    ) {
+        public SearchPartyDTO(Party party, String departureToPickup) {
+            this(
+                    party.getPartyId(),
+                    party.getPickupAddress().getPlaceName(),
+                    party.getDropoffAddress().getPlaceName(),
+                    departureToPickup,
+                    party.getPickupTime(),
+                    party.getDescription()
+            );
+        }
+    }
 }
