@@ -20,6 +20,7 @@ import static com.localgaji.taxi.party.dto.ResponseParty.*;
 public class PartyController {
 
     private final PartyService partyService;
+    private final PartyLocationService locationService;
 
     @PostMapping
     @Operation(summary = "파티 개설")
@@ -71,4 +72,18 @@ public class PartyController {
         return ResponseEntity.ok().body(success(null));
     }
 
+    @GetMapping("/{partyId}/locations")
+    @Operation(summary = "승차, 하차 위치 상세조회")
+    public ResponseEntity<Response<GetLocationsRes>> getLocation2(@PathVariable Long partyId) {
+        Party party = partyService.findPartyByPartyId(partyId);
+        GetLocationsRes response = locationService.getLocations(party);
+        return ResponseEntity.ok().body(success(response));
+    }
+
+    @PostMapping("/party/_search")
+    @Operation(summary = "조건에 맞는 파티 리스트 조회")
+    public ResponseEntity<Response<GetPartiesSearchRes>> getSearchParty(@RequestBody GetPartiesSearchReq requestBody) {
+        GetPartiesSearchRes response = locationService.partySearch(requestBody);
+        return ResponseEntity.ok().body(success(response));
+    }
 }
