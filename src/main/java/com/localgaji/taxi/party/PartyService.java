@@ -6,7 +6,7 @@ import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.party.passenger.PassengerRepository;
 import com.localgaji.taxi.party.passenger.PassengerService;
 import com.localgaji.taxi.party.passenger.PassengerStatus;
-import com.localgaji.taxi.address.PlaceService;
+import com.localgaji.taxi.address.AddressService;
 import com.localgaji.taxi.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +27,8 @@ public class PartyService {
     private final PartyRepository partyRepository;
     private final PassengerRepository passengerRepository;
     private final PassengerService passengerService;
-    private final PlaceService placeService;
-
+    private final AddressService addressService;
+    private final PartyLocationService locationService;
 
     /** 파티 개설 */
     @Transactional
@@ -36,7 +36,7 @@ public class PartyService {
         Party party = dto.toEntity();
 
         // 승/하차 주소 entity 저장
-        placeService.savePartyPlaces(party);
+        addressService.savePartyPlaces(party);
 
         // party entity 저장
         partyRepository.save(party);

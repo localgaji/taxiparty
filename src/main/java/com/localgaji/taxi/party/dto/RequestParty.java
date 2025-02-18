@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 public class RequestParty {
     @Schema(description = "팟 만들기")
     public record PostPartyReq(
-            PlaceDTO pickup,
-            PlaceDTO dropoff,
+            AddressDTO pickup,
+            AddressDTO dropoff,
             LocalDateTime pickupTime,
             String description,
             Integer maxHeadcount

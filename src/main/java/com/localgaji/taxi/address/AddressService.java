@@ -7,16 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service @RequiredArgsConstructor @Slf4j
-public class PlaceService {
-    private final PlaceRepository placeRepository;
+public class AddressService {
+    private final AddressRepository addressRepository;
 
     @Transactional
     public void savePartyPlaces(Party party) {
         Address pickup = party.getPickupAddress();
         Address dropoff = party.getDropoffAddress();
 
-        placeRepository.save(pickup);
-        placeRepository.save(dropoff);
+        addressRepository.save(pickup);
+        addressRepository.save(dropoff);
     }
 
 }
