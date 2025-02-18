@@ -31,14 +31,14 @@ public class PartyController {
 
     // 채팅 연결 필요..
     @GetMapping("/myList")
-    @Operation(summary = "내 파티 리스트")
+    @Operation(summary = "내 파티 리스트 조회")
     public ResponseEntity<Response<GetPartyListRes>> getPartyList(@AuthUser User user) {
         GetPartyListRes responseBody = partyService.getPartyList(user);
         return ResponseEntity.ok().body(success(responseBody));
     }
 
     @GetMapping("/{partyId}")
-    @Operation(summary = "파티 상세 정보")
+    @Operation(summary = "파티 상세 정보 조회")
     public ResponseEntity<Response<GetPartyRes>> getPartyList(@AuthUser User user,
                                                               @PathVariable Long partyId) {
         GetPartyRes responseBody = partyService.getPartyDetail(user, partyId);
