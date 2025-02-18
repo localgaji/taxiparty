@@ -41,9 +41,9 @@ public class ResponseParty {
 
     @Schema(description = "내 파티 리스트")
     public record GetPartyListRes(
-            List<PartyBriefDTO> partyList
+            List<MyPartyDTO> partyList
     ) {
-        public record PartyBriefDTO(
+        public record MyPartyDTO(
                 Long partyId,
                 String dropoff,
                 LocalDateTime pickupTime,
@@ -52,7 +52,7 @@ public class ResponseParty {
                 String chatPreview,
                 Integer chatNoRead
         ) {
-            public PartyBriefDTO(Party party, String chatPreview, int chatNoRead) {
+            public MyPartyDTO(Party party, String chatPreview, int chatNoRead) {
                 this(
                         party.getPartyId(),
                         party.getDropoffAddress().getPlaceName(),
