@@ -10,13 +10,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity @Table(name = "party") @Hidden @Getter @Builder
-@AllArgsConstructor @NoArgsConstructor
+@Entity @Table(name = "party")
+@Hidden @Getter @Builder @AllArgsConstructor @NoArgsConstructor
 public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +28,12 @@ public class Party {
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "account_id")
     private Account account;
+
+    @Column(columnDefinition = "POINT SRID 4326") @NotNull
+    private Point pickupPoint;
+
+    @Column(columnDefinition = "POINT SRID 4326") @NotNull
+    private Point dropoffPoint;
 
     @ManyToOne(fetch = FetchType.LAZY) @NotNull @JoinColumn(name = "pickup_address_id")
     private Address pickupAddress;
@@ -50,14 +57,14 @@ public class Party {
     private List<Passenger> passengers = new ArrayList<>();
 
     @Column @Builder.Default @NotNull
-    private PartyStatus partyStatus = PartyStatus.ACTIVE;
+    private PartyStatus status = PartyStatus.ACTIVE;
 
     public void deleteParty() {
-        this.partyStatus = PartyStatus.DELETED;
+        this.status = PartyStatus.DELETED;
     }
 
     public void endParty() {
-        this.partyStatus = PartyStatus.END;
+        this.status = PartyStatus.END;
     }
 
     public void addAccount(Account account) {

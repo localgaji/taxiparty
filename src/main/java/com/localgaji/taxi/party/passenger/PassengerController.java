@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.localgaji.taxi.__global__.utils.ApiUtil.*;
-import static com.localgaji.taxi.party.dto.ResponseParty.*;
+import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
 
 @RestController
 @RequiredArgsConstructor

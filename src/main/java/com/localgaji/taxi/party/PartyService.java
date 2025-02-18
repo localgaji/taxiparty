@@ -6,11 +6,12 @@ import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.party.passenger.PassengerRepository;
 import com.localgaji.taxi.party.passenger.PassengerService;
 import com.localgaji.taxi.party.passenger.PassengerStatus;
-import com.localgaji.taxi.address.PlaceService;
+import com.localgaji.taxi.address.AddressService;
 import com.localgaji.taxi.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,16 +28,19 @@ public class PartyService {
     private final PartyRepository partyRepository;
     private final PassengerRepository passengerRepository;
     private final PassengerService passengerService;
-    private final PlaceService placeService;
-
+    private final AddressService addressService;
+    private final PartyLocationService locationService;
 
     /** 파티 개설 */
     @Transactional
     public void makeParty(User user, PostPartyReq dto) {
-        Party party = dto.toEntity();
+        // dto -> entity
+        Point pickupPoint = locationService.newPoint(dto.pickup().coordinate());
+        Point dropoffPoint = locationService.newPoint(dto.dropoff().coordinate());
+        Party party = dto.toEntity(pickupPoint, dropoffPoint);
 
         // 승/하차 주소 entity 저장
-        placeService.savePartyPlaces(party);
+        addressService.savePartyPlaces(party);
 
         // party entity 저장
         partyRepository.save(party);
@@ -110,18 +114,18 @@ public class PartyService {
         party.endParty();
     }
 
-    /** 내 파티 리스트: 채팅 기능 도입 필요 */
+    /** 내 파티 리스트 조회: 채팅 기능 도입 필요 */
     public GetPartyListRes getPartyList(User user) {
 
-        List<PartyBriefDTO> partyBriefDTOList = user.getPassengerList().stream()
+        List<MyPartyDTO> myPartyDTOList = user.getPassengerList().stream()
                 .filter(passenger ->
                         passenger.getStatus() == PassengerStatus.ACTIVE
-                        || passenger.getParty().getPartyStatus() == PartyStatus.ACTIVE
+                        || passenger.getParty().getStatus() == PartyStatus.ACTIVE
                 ).map(passenger ->
-                        new PartyBriefDTO( passenger.getParty() , "", 0 )
+                        new MyPartyDTO( passenger.getParty() , "", 0 )
                 ).toList();
 
-        return new GetPartyListRes(partyBriefDTOList);
+        return new GetPartyListRes(myPartyDTOList);
     }
 
     /** util: ID로 entity 찾기 (없으면 404) */

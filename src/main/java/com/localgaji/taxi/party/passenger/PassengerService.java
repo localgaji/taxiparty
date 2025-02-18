@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.localgaji.taxi.party.dto.ResponseParty.*;
+import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
 
 @Slf4j
 @Service

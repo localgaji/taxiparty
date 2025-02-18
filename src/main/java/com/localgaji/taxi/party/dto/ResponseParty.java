@@ -2,11 +2,12 @@ package com.localgaji.taxi.party.dto;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.party.Party;
-import com.localgaji.taxi.party.passenger.Passenger;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.localgaji.taxi.party.dto.LocationDTO.*;
 
 public class ResponseParty {
     @Schema(description = "파티 상세 정보")
@@ -41,9 +42,9 @@ public class ResponseParty {
 
     @Schema(description = "내 파티 리스트")
     public record GetPartyListRes(
-            List<PartyBriefDTO> partyList
+            List<MyPartyDTO> partyList
     ) {
-        public record PartyBriefDTO(
+        public record MyPartyDTO(
                 Long partyId,
                 String dropoff,
                 LocalDateTime pickupTime,
@@ -52,7 +53,7 @@ public class ResponseParty {
                 String chatPreview,
                 Integer chatNoRead
         ) {
-            public PartyBriefDTO(Party party, String chatPreview, int chatNoRead) {
+            public MyPartyDTO(Party party, String chatPreview, int chatNoRead) {
                 this(
                         party.getPartyId(),
                         party.getDropoffAddress().getPlaceName(),
@@ -67,22 +68,36 @@ public class ResponseParty {
         }
     }
 
-    @Schema(description = "팀원 리스트")
-    public record GetPassengersRes(
-            List<PassengerInfo> passengers
+    @Schema(description = "승차/하차 위치 자세히")
+    public record GetLocationsRes(
+            AddressDTO pickup,
+            AddressDTO dropoff
     ) {
     }
 
-    public record PassengerInfo(
-            Long userId,
-            String userName,
-            Boolean isManager
-    ){
-        public PassengerInfo(Passenger passenger) {
+    @Schema(description = "조건에 맞는 파티 리스트 검색")
+    public record GetPartiesSearchRes(
+            List<SearchPartyDTO> partyList,
+            Boolean hasNext
+    ) {
+    }
+
+    public record SearchPartyDTO(
+            Long partyId,
+            String pickup,
+            String dropoff,
+            String departureToPickup,
+            LocalDateTime pickupTime,
+            String description
+    ) {
+        public SearchPartyDTO(Party party, String departureToPickup) {
             this(
-                    passenger.getUser().getUserId(),
-                    passenger.getUser().getUserName(),
-                    passenger.getIsManager()
+                    party.getPartyId(),
+                    party.getPickupAddress().getPlaceName(),
+                    party.getDropoffAddress().getPlaceName(),
+                    departureToPickup,
+                    party.getPickupTime(),
+                    party.getDescription()
             );
         }
     }
