@@ -41,9 +41,4 @@ public class RequestParty {
     ) {
     }
 
-    public record CoordinateDTO(
-            Double x,
-            Double y
-    ) {
-    }
 }
