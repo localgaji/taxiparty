@@ -41,7 +41,8 @@ public class RequestParty {
     public record GetPartiesSearchReq(
             CoordinateDTO departure,
             CoordinateDTO dropoff,
-            LocalDateTime pickupTime
+            LocalDateTime pickupTime,
+            Integer page
     ) {
     }
 
