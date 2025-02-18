@@ -113,15 +113,15 @@ public class PartyService {
     /** 내 파티 리스트: 채팅 기능 도입 필요 */
     public GetPartyListRes getPartyList(User user) {
 
-        List<PartyBriefDTO> partyBriefDTOList = user.getPassengerList().stream()
+        List<MyPartyDTO> myPartyDTOList = user.getPassengerList().stream()
                 .filter(passenger ->
                         passenger.getStatus() == PassengerStatus.ACTIVE
-                        || passenger.getParty().getPartyStatus() == PartyStatus.ACTIVE
+                        || passenger.getParty().getStatus() == PartyStatus.ACTIVE
                 ).map(passenger ->
-                        new PartyBriefDTO( passenger.getParty() , "", 0 )
+                        new MyPartyDTO( passenger.getParty() , "", 0 )
                 ).toList();
 
-        return new GetPartyListRes(partyBriefDTOList);
+        return new GetPartyListRes(myPartyDTOList);
     }
 
     /** util: ID로 entity 찾기 (없으면 404) */
