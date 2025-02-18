@@ -24,7 +24,7 @@ public class PartyController {
     @PostMapping
     @Operation(summary = "파티 개설")
     public ResponseEntity<Response<String>> postAddParty(@AuthUser User user,
-                                                    @RequestBody PostPartyReq requestBody) {
+                                                         @RequestBody PostPartyReq requestBody) {
         partyService.makeParty(user, requestBody);
         return ResponseEntity.ok().body(success(null));
     }
@@ -66,7 +66,7 @@ public class PartyController {
     @PatchMapping("/{partyId}/end")
     @Operation(summary = "파티 끝내기")
     public ResponseEntity<Response<String>> patchPartyEnd(@AuthUser User user,
-                                               @PathVariable Long partyId) {
+                                                          @PathVariable Long partyId) {
         partyService.endParty(user, partyId);
         return ResponseEntity.ok().body(success(null));
     }
