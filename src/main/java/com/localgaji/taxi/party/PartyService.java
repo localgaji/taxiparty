@@ -110,7 +110,7 @@ public class PartyService {
         party.endParty();
     }
 
-    /** 내 파티 리스트: 채팅 기능 도입 필요 */
+    /** 내 파티 리스트 조회: 채팅 기능 도입 필요 */
     public GetPartyListRes getPartyList(User user) {
 
         List<MyPartyDTO> myPartyDTOList = user.getPassengerList().stream()
