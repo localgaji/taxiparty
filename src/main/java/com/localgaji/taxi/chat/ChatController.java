@@ -2,6 +2,7 @@ package com.localgaji.taxi.chat;
 
 import com.localgaji.taxi.__global__.auth_global.AuthUser;
 import com.localgaji.taxi.user.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import static com.localgaji.taxi.__global__.utils.ApiUtil.*;
 import static com.localgaji.taxi.chat.dto.ResponseChat.*;
 
 @RequiredArgsConstructor @RestController
+@Tag(name = "채팅", description = "채팅 조회 API")
 public class ChatController {
 
     private final ChatService chatService;
