@@ -22,7 +22,7 @@ import java.util.List;
 public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partyId;
+    private Long id;
 
     @Column @NotNull
     private LocalDateTime pickupTime;
