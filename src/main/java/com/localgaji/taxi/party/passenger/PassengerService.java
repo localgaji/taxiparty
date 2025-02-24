@@ -3,7 +3,7 @@ package com.localgaji.taxi.party.passenger;
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
 import com.localgaji.taxi.party.Party;
-import com.localgaji.taxi.party.PartyService;
+import com.localgaji.taxi.party.UtilPartyService;
 import com.localgaji.taxi.user.User;
 import com.localgaji.taxi.user.UserService;
 import jakarta.transaction.Transactional;
@@ -19,20 +19,20 @@ import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
 @RequiredArgsConstructor
 public class PassengerService {
     private final PassengerRepository passengerRepository;
-    private final PartyService partyService;
     private final UserService userService;
+    private final UtilPartyService utilPartyService;
 
     /** 파티 가입 */
     @Transactional
     public void join(User user, Long partyId) {
-        Party party = partyService.findPartyByPartyId(partyId);
+        Party party = utilPartyService.findPartyByIdOr404(partyId);
         Passenger passenger = Passenger.builder()
                 .user(user)
                 .party(party)
                 .build();
 
         // 이미 가입 -> 예외처리
-        if (isUserInParty(user, party)) {
+        if (utilPartyService.isUserInParty(user, party)) {
             throw new CustomException(ErrorType.ALREADY_HAVE);
         }
 
@@ -49,7 +49,7 @@ public class PassengerService {
     /** 파티 탈퇴 */
     @Transactional
     public void leave(User user, Long partyId) {
-        Party party = partyService.findPartyByPartyId(partyId);
+        Party party = utilPartyService.findPartyByIdOr404(partyId);
 
         Passenger passenger = findActivePassenger(user, party)
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
@@ -60,12 +60,10 @@ public class PassengerService {
     /** 파티 강퇴 */
     @Transactional
     public void kickout(User manager, Long kickUserId, Long partyId) {
-        Party party = partyService.findPartyByPartyId(partyId);
+        Party party = utilPartyService.findPartyByIdOr404(partyId);
 
         // 방장 권한 체크
-        if (!isManagerInParty(manager, party)) {
-            throw new CustomException(ErrorType.FORBIDDEN);
-        }
+        utilPartyService.checkManagerInPartyOrThrow(manager, party);
 
         // 쫓아낼 유저 찾기
         User kickUser = userService.findUserById(kickUserId);
@@ -78,12 +76,10 @@ public class PassengerService {
 
     /** 팀원 리스트 */
     public GetPassengersRes getPassengers(User user, Long partyId) {
-        Party party = partyService.findPartyByPartyId(partyId);
+        Party party = utilPartyService.findPartyByIdOr404(partyId);
 
         // 권한 확인
-        if (!isUserInParty(user, party)) {
-            throw new CustomException(ErrorType.FORBIDDEN);
-        }
+        utilPartyService.checkUserInPartyOrThrow(user, party);
 
         // 팀원 리스트 가공
         List<PassengerInfo> passengers = party.getPassengers().stream()
@@ -94,23 +90,7 @@ public class PassengerService {
         return new GetPassengersRes(passengers);
     }
 
-    /** util: 소속 팀원인지 확인 */
-    public boolean isUserInParty(User user, Party party) {
-        return findActivePassenger(user,party).isPresent();
-    }
-
-    /** util: 팀의 매니저인지 권한 확인 */
-    public boolean isManagerInParty(User manager, Party party) {
-        Long managerUserId = manager.getUserId();
-        return party.getPassengers().stream()
-                .anyMatch(p ->
-                        managerUserId.equals( p.getUser().getUserId() )
-                                || p.getStatus() == PassengerStatus.ACTIVE
-                                || p.getIsManager()
-                );
-    }
-
-    /** util: 강퇴당한 멤버인지 확인 */
+    /** 강퇴당한 멤버인지 확인 */
     private boolean hasKicked(User user, Party party) {
         Long userId = user.getUserId();
         return party.getPassengers().stream()
