@@ -1,6 +1,6 @@
 package com.localgaji.taxi.party;
 
-import com.localgaji.taxi.__global__.AbstractBaseService;
+import com.localgaji.taxi.__global__.utils.AbstractBaseService;
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
 import com.localgaji.taxi.party.passenger.PassengerStatus;
