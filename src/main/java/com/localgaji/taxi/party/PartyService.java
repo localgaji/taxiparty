@@ -2,6 +2,7 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
+import com.localgaji.taxi.chat.ChatRepositoryCustomImpl;
 import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.party.passenger.PassengerRepository;
 import com.localgaji.taxi.address.AddressService;
@@ -26,6 +27,7 @@ public class PartyService {
     private final AddressService addressService;
     private final PartyLocationService locationService;
     private final UtilPartyService utilPartyService;
+    private final ChatRepositoryCustomImpl chatRepositoryCustom;
 
     /** 파티 개설 */
     @Transactional
@@ -104,15 +106,13 @@ public class PartyService {
         party.endParty();
     }
 
-    /** 내 파티 리스트 조회: 채팅 기능 도입 필요 */
+    /** 내 파티 리스트 조회 */
     public GetPartyListRes getPartyList(User user) {
 
-        List<MyPartyDTO> myPartyDTOList = user.getPassengerList().stream()
-                .filter(passenger ->
-                        passenger.getStatus() == PassengerStatus.ACTIVE
-                        || passenger.getParty().getStatus() == PartyStatus.ACTIVE
-                ).map(passenger ->
-                        new MyPartyDTO( passenger.getParty() , "", 0 )
+        // 파티를 가져오면서 각 파티의 최신 채팅을 1개씩 가져오기
+        List<MyPartyDTO> myPartyDTOList = chatRepositoryCustom.findPartiesAndLatestChatByUser(user).stream()
+                .map(dto ->
+                        new MyPartyDTO(dto.party(), dto.latestChat().getMessage(), 0 )
                 ).toList();
 
         return new GetPartyListRes(myPartyDTOList);
