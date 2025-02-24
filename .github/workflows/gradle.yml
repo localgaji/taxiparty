@@ -70,7 +70,7 @@ jobs:
           key: ${{ secrets.AWS_PEM_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/taxi
-            docker stop spring/taxi
+            docker stop spring-taxi
             docker container prune -f
             docker compose up -d
             docker image prune -a -f
