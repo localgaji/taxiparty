@@ -51,7 +51,7 @@ public class PassengerService {
     public void leave(User user, Long partyId) {
         Party party = utilPartyService.findPartyByIdOr404(partyId);
 
-        Passenger passenger = findActivePassenger(user, party)
+        Passenger passenger = findActivePassengerByUser(user, party)
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
         passenger.leavePassenger();
@@ -67,7 +67,7 @@ public class PassengerService {
 
         // 쫓아낼 유저 찾기
         User kickUser = userService.findUserById(kickUserId);
-        Passenger passenger = findActivePassenger(kickUser, party)
+        Passenger passenger = findActivePassengerByUser(kickUser, party)
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
         // 쫓아내기
@@ -100,8 +100,8 @@ public class PassengerService {
                 );
     }
 
-    /** util: user & party 로 passenger entity 찾기 */
-    private Optional<Passenger> findActivePassenger(User user, Party party) {
+    /** user & party 로 passenger entity 찾기 */
+    private Optional<Passenger> findActivePassengerByUser(User user, Party party) {
         List<Passenger> passengers = party.getPassengers();
         Long userId = user.getUserId();
         return passengers.stream()
