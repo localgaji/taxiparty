@@ -2,7 +2,6 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.address.Address;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
@@ -19,7 +18,7 @@ import static com.localgaji.taxi.party.dto.LocationDTO.*;
 import static com.localgaji.taxi.party.dto.RequestParty.*;
 import static com.localgaji.taxi.party.dto.ResponseParty.*;
 
-@Service @Slf4j @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class PartyLocationService {
 
     private final int SRID = 4326;

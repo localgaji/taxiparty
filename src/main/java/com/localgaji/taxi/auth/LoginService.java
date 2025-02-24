@@ -6,14 +6,13 @@ import com.localgaji.taxi.user.UserService;
 import com.localgaji.taxi.auth.kakao_oauth.KakaoOAuth;
 import com.localgaji.taxi.auth.kakao_oauth.KakaoOAuthService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.localgaji.taxi.auth.dto.RequestAuth.*;
 
 
-@Slf4j @Service
+@Service
 @RequiredArgsConstructor
 public class LoginService {
 

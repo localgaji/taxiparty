@@ -8,7 +8,6 @@ import com.localgaji.taxi.user.User;
 import com.localgaji.taxi.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Optional;
 
 import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PassengerService {

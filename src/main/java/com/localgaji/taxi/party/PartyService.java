@@ -10,7 +10,6 @@ import com.localgaji.taxi.address.AddressService;
 import com.localgaji.taxi.user.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ import static com.localgaji.taxi.party.dto.RequestParty.*;
 import static com.localgaji.taxi.party.dto.ResponseParty.*;
 import static com.localgaji.taxi.party.dto.ResponseParty.GetPartyListRes.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PartyService {
