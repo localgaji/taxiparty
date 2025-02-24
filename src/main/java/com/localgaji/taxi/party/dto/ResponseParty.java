@@ -55,7 +55,7 @@ public class ResponseParty {
         ) {
             public MyPartyDTO(Party party, String chatPreview, int chatNoRead) {
                 this(
-                        party.getPartyId(),
+                        party.getId(),
                         party.getDropoffAddress().getPlaceName(),
                         party.getPickupTime(),
                         party.getHeadcount(),
@@ -92,7 +92,7 @@ public class ResponseParty {
     ) {
         public SearchPartyDTO(Party party, String departureToPickup) {
             this(
-                    party.getPartyId(),
+                    party.getId(),
                     party.getPickupAddress().getPlaceName(),
                     party.getDropoffAddress().getPlaceName(),
                     departureToPickup,
