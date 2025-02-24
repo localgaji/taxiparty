@@ -18,7 +18,6 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final UserService userService;
     private final UtilPartyService utilPartyService;
-    private final ChatRepositoryCustomImpl chatRepositoryCustom;
 
     /** 채팅 저장하기 */
     @Transactional
@@ -46,7 +45,7 @@ public class ChatService {
         utilPartyService.checkUserInPartyOrThrow(user, party);
 
         // 커서 페이징으로 chatList 가져오기 -> 매핑
-        List<ChatRes> chatList = chatRepositoryCustom.findChatListByPartyWithCursor(partyId, amount, cursor).stream()
+        List<ChatRes> chatList = chatRepository.findChatListByPartyWithCursor(partyId, amount, cursor).stream()
                 .map(dto ->
                         new ChatRes( dto.chat(), dto.user() )
                 ).toList();
