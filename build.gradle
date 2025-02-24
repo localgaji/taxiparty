@@ -38,6 +38,9 @@ dependencies {
 	runtimeOnly "io.jsonwebtoken:jjwt-jackson:0.11.5"
 
 	implementation 'org.hibernate.orm:hibernate-spatial:6.6.7.Final'
+	implementation "io.github.openfeign.querydsl:querydsl-jpa:6.7"
+	annotationProcessor "io.github.openfeign.querydsl:querydsl-apt:6.7:jpa"
+	implementation "io.github.openfeign.querydsl:querydsl-spatial:6.7"
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 }
@@ -48,4 +51,9 @@ subprojects {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+def querydslSrcDir = 'src/main/generated'
+clean {
+	delete file(querydslSrcDir)
 }

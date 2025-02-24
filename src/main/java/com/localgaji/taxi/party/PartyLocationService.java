@@ -2,15 +2,12 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.address.Address;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +16,7 @@ import static com.localgaji.taxi.party.dto.LocationDTO.*;
 import static com.localgaji.taxi.party.dto.RequestParty.*;
 import static com.localgaji.taxi.party.dto.ResponseParty.*;
 
-@Service @Slf4j @RequiredArgsConstructor
+@Service @RequiredArgsConstructor
 public class PartyLocationService {
 
     private final int SRID = 4326;

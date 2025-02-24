@@ -1,6 +1,7 @@
 package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.account.Account;
+import com.localgaji.taxi.chat.Chat;
 import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.address.Address;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -21,7 +22,7 @@ import java.util.List;
 public class Party {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long partyId;
+    private Long id;
 
     @Column @NotNull
     private LocalDateTime pickupTime;
@@ -58,6 +59,10 @@ public class Party {
 
     @Column @Builder.Default @NotNull
     private PartyStatus status = PartyStatus.ACTIVE;
+
+    @OneToMany(mappedBy = "party") @Builder.Default @NotNull
+    @OrderBy("id asc")
+    private List<Chat> chatList = new ArrayList<>();
 
     public void deleteParty() {
         this.status = PartyStatus.DELETED;
