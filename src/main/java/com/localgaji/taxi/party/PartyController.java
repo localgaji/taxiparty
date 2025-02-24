@@ -21,6 +21,7 @@ public class PartyController {
 
     private final PartyService partyService;
     private final PartyLocationService locationService;
+    private final UtilPartyService utilPartyService;
 
     @PostMapping
     @Operation(summary = "파티 개설")
@@ -75,7 +76,7 @@ public class PartyController {
     @GetMapping("/{partyId}/locations")
     @Operation(summary = "승차, 하차 위치 상세조회")
     public ResponseEntity<Response<GetLocationsRes>> getLocation2(@PathVariable Long partyId) {
-        Party party = partyService.findPartyByPartyId(partyId);
+        Party party = utilPartyService.findPartyByIdOr404(partyId);
         GetLocationsRes response = locationService.getLocations(party);
         return ResponseEntity.ok().body(success(response));
     }
