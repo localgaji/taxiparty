@@ -10,9 +10,11 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLSubQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
-@RequiredArgsConstructor
+@Repository @RequiredArgsConstructor
 public class ChatRepositoryCustomImpl implements ChatRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
@@ -57,9 +59,9 @@ public class ChatRepositoryCustomImpl implements ChatRepositoryCustom{
                 .select(party, chat)
                 .from(passenger)
                 .join(passenger.party, party)
-                    .on( passenger.status.eq(PassengerStatus.ACTIVE) )
+                .on( passenger.status.eq(PassengerStatus.ACTIVE) )
                 .leftJoin(chat)
-                    .on( chat.id.eq(latestChatSubQuery) )
+                .on( chat.id.eq(latestChatSubQuery) )
                 .where( passenger.user.userId.eq(user.getUserId()) )
                 .fetch();
 
@@ -69,3 +71,4 @@ public class ChatRepositoryCustomImpl implements ChatRepositoryCustom{
                 ).toList();
     }
 }
+

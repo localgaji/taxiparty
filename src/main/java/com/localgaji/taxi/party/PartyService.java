@@ -2,7 +2,7 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
-import com.localgaji.taxi.chat.ChatRepositoryCustomImpl;
+import com.localgaji.taxi.chat.ChatRepository;
 import com.localgaji.taxi.party.passenger.Passenger;
 import com.localgaji.taxi.party.passenger.PassengerRepository;
 import com.localgaji.taxi.address.AddressService;
@@ -27,7 +27,7 @@ public class PartyService {
     private final AddressService addressService;
     private final PartyLocationService locationService;
     private final UtilPartyService utilPartyService;
-    private final ChatRepositoryCustomImpl chatRepositoryCustom;
+    private final ChatRepository chatRepository;
 
     /** 파티 개설 */
     @Transactional
@@ -110,7 +110,7 @@ public class PartyService {
     public GetPartyListRes getPartyList(User user) {
 
         // 파티를 가져오면서 각 파티의 최신 채팅을 1개씩 가져오기
-        List<MyPartyDTO> myPartyDTOList = chatRepositoryCustom.findPartiesAndLatestChatByUser(user).stream()
+        List<MyPartyDTO> myPartyDTOList = chatRepository.findPartiesAndLatestChatByUser(user).stream()
                 .map(dto ->
                         new MyPartyDTO(dto.party(), dto.latestChat().getMessage(), 0 )
                 ).toList();
