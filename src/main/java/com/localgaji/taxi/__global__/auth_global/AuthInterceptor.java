@@ -1,9 +1,6 @@
 package com.localgaji.taxi.__global__.auth_global;
 
-import com.localgaji.taxi.__global__.exception.CustomException;
-import com.localgaji.taxi.__global__.exception.ErrorType;
 import com.localgaji.taxi.auth.JwtService;
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,13 +25,21 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        // 토큰 유효하지 않을 경우 에러 발생
-        Long userId = getUserIdByRequest(request);
+        // 헤더 > jwt > userId 찾아서 arguments resolver 에 넘겨주기
+        forwardUserIdToResolver(request);
+
+        return true;
+    }
+
+    private void forwardUserIdToResolver(HttpServletRequest request) {
+        // 요청에서 authorization 헤더 뽑기
+        String authorization = getAuthHeaderByRequest(request);
+
+        // authorization 헤더에서 userId 뽑기 (토큰 유효하지 않을 경우 에러 발생)
+        Long userId = jwtService.getUserIdByAuthHeader(authorization);
 
         // userId를 arguments resolver 에 넘기기
         request.setAttribute("userId", userId);
-
-        return true;
     }
 
     private boolean isLoginRequired(HandlerMethod handlerMethod) {
@@ -46,22 +51,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         return false;
     }
 
-    private Long getUserIdByRequest(HttpServletRequest request) {
-        // Authorization 헤더 값 가져오기
-        String authorization = request.getHeader("Authorization");
-
-        // 헤더 값이 없을 때 커스텀 에러 발생
-        if (!isHeaderEmpty(authorization)) {
-            throw new CustomException(ErrorType.TOKEN_NO);
-        }
-
-        // 토큰 검증 + 사용자 정보 추출 (토큰 무효할 경우 커스텀 에러 발생)
-        Claims claims = jwtService.getClaimsByAuthorizationHeader(authorization);
-
-        return jwtService.getUserIdByClaims(claims);
-    }
-
-    private boolean isHeaderEmpty(String authorizationHeader) {
-        return authorizationHeader != null;
+    private String getAuthHeaderByRequest(HttpServletRequest request) {
+        return request.getHeader("Authorization");
     }
 }

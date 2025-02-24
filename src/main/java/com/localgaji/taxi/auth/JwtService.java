@@ -54,7 +54,18 @@ public class JwtService {
         return tokenTypeKeyword + jwt;
     }
 
-    public Long getUserIdByClaims(Claims claims) {
+    /** AuthorizationHeader 헤더에서 userId 추출 (토큰 없음, 무효, 만료 시 에러 생성) */
+    public Long getUserIdByAuthHeader(String authorization) {
+        // 헤더 값이 없을 때 에러 발생
+        if (authorization == null) {
+            throw new CustomException(ErrorType.TOKEN_NO);
+        }
+
+        Claims claims = getClaimsByAuthorizationHeader(authorization);
+        return getUserIdByClaims(claims);
+    }
+
+    private Long getUserIdByClaims(Claims claims) {
         // claim set 에서 subject claim (== userId) 뽑기
         String sub = claims.getSubject();
         if (sub == null) {
@@ -63,8 +74,7 @@ public class JwtService {
         return Long.parseLong(sub);
     }
 
-    /** AuthorizationHeader 헤더에서 jwt 클레임 추출 (토큰 없음, 무효, 만료 시 커스텀 에러 생성) */
-    public Claims getClaimsByAuthorizationHeader(String authorization) {
+    private Claims getClaimsByAuthorizationHeader(String authorization) {
         String jwt = eliminateTypeKeyword(authorization);
         return getClaimsByJwt(jwt);
     }
@@ -82,7 +92,7 @@ public class JwtService {
     /** 토큰에서 claim set 뽑기 (+ 유효성 검증, 만료 검증) */
     private Claims getClaimsByJwt(String jwt) {
 
-        // 토큰에서 claime set 뽑기 + 예외 처리
+        // 토큰에서 claim set 뽑기 + 예외 처리
         try {
             return Jwts.parserBuilder()
                     .setSigningKey(secretKey)
