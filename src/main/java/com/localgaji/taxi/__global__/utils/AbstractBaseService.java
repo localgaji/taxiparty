@@ -1,4 +1,4 @@
-package com.localgaji.taxi.__global__;
+package com.localgaji.taxi.__global__.utils;
 
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
