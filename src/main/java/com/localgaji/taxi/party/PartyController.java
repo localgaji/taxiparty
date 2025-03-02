@@ -15,7 +15,7 @@ import static com.localgaji.taxi.party.dto.ResponseParty.*;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "", description = "")
+@Tag(name = "파티", description = "파티 정보 조회/수정 관련 API")
 @RequestMapping("/party")
 public class PartyController {
 
