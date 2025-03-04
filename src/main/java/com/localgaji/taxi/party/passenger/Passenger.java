@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long passengerId;
+    private Long id;
 
     @Column @NotNull @Builder.Default
     private Boolean isManager = false;
