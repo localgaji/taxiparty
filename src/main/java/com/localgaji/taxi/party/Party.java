@@ -2,9 +2,9 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.chat.Chat;
-import com.localgaji.taxi.party.passenger.Passenger;
+import com.localgaji.taxi.passenger.Passenger;
 import com.localgaji.taxi.address.Address;
-import com.localgaji.taxi.party.passenger.PassengerStatus;
+import com.localgaji.taxi.passenger.PassengerStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

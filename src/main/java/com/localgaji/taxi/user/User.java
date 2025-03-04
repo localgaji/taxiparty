@@ -2,7 +2,7 @@ package com.localgaji.taxi.user;
 
 import com.localgaji.taxi.__global__.utils.BaseTime;
 import com.localgaji.taxi.account.Account;
-import com.localgaji.taxi.party.passenger.Passenger;
+import com.localgaji.taxi.passenger.Passenger;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

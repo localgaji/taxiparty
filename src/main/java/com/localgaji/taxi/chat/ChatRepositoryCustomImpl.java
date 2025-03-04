@@ -1,7 +1,7 @@
 package com.localgaji.taxi.chat;
 
 import com.localgaji.taxi.party.QParty;
-import com.localgaji.taxi.party.passenger.PassengerStatus;
+import com.localgaji.taxi.passenger.PassengerStatus;
 import com.localgaji.taxi.party.passenger.QPassenger;
 import com.localgaji.taxi.user.QUser;
 import com.localgaji.taxi.user.User;

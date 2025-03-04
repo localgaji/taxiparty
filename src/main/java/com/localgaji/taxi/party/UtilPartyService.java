@@ -3,7 +3,7 @@ package com.localgaji.taxi.party;
 import com.localgaji.taxi.__global__.utils.AbstractBaseService;
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
-import com.localgaji.taxi.party.passenger.PassengerStatus;
+import com.localgaji.taxi.passenger.PassengerStatus;
 import com.localgaji.taxi.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
