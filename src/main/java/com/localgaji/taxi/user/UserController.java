@@ -2,8 +2,8 @@ package com.localgaji.taxi.user;
 
 import com.localgaji.taxi.__global__.auth_global.AuthUser;
 import com.localgaji.taxi.__global__.utils.ApiUtil.Response;
-import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.account.AccountService;
+import com.localgaji.taxi.account.RequestAccount;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -41,7 +41,7 @@ public class UserController {
     @PatchMapping("/account")
     @Operation(summary = "계좌 등록")
     public ResponseEntity<Response<String>> patchAccount(@AuthUser User user,
-                                                         @RequestBody Account body) {
+                                                         @RequestBody RequestAccount body) {
         accountService.addAccount(user, body);
         return ResponseEntity.ok().body(success(null));
     }
