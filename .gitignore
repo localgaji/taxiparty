@@ -9,6 +9,8 @@ application.yml
 application-local.yml
 application-prod.yml
 application-test.yml
+docker-compose.yml
+scouter/
 
 ### STS ###
 .apt_generated
