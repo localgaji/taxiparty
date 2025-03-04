@@ -1,4 +1,4 @@
-package com.localgaji.taxi.party.passenger;
+package com.localgaji.taxi.passenger;
 
 public enum PassengerStatus {
     ACTIVE,

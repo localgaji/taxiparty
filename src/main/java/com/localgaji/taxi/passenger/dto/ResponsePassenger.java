@@ -1,6 +1,6 @@
-package com.localgaji.taxi.party.passenger.dto;
+package com.localgaji.taxi.passenger.dto;
 
-import com.localgaji.taxi.party.passenger.Passenger;
+import com.localgaji.taxi.passenger.Passenger;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;

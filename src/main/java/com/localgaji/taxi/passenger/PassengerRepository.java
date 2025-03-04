@@ -1,4 +1,4 @@
-package com.localgaji.taxi.party.passenger;
+package com.localgaji.taxi.passenger;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

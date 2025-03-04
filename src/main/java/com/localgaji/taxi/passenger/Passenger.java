@@ -1,4 +1,4 @@
-package com.localgaji.taxi.party.passenger;
+package com.localgaji.taxi.passenger;
 
 import com.localgaji.taxi.party.Party;
 import com.localgaji.taxi.user.User;

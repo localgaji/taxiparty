@@ -1,4 +1,4 @@
-package com.localgaji.taxi.party.passenger;
+package com.localgaji.taxi.passenger;
 
 import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
+import static com.localgaji.taxi.passenger.dto.ResponsePassenger.*;
 
 @Service
 @RequiredArgsConstructor
