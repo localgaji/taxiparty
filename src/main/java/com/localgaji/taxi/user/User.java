@@ -27,8 +27,7 @@ public class User extends BaseTime {
     @Column @NotNull
     private String email;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "account_id")
+    @OneToOne(mappedBy = "user")
     private Account account;
 
     @OneToMany(mappedBy = "user") @Builder.Default @NotNull

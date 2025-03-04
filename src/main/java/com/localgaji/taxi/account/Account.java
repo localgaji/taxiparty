@@ -1,5 +1,6 @@
 package com.localgaji.taxi.account;
 
+import com.localgaji.taxi.user.User;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +28,8 @@ public class Account{
 
     @Column @NotNull
     private String depositorName;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
