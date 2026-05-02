@@ -44,3 +44,4 @@ out/
 .vscode/
 *.bat
 *.log
+*.jar
