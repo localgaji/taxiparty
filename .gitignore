@@ -42,3 +42,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/agent.java/
+*.bat
+*.log
+*.jar

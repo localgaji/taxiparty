@@ -2,6 +2,7 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.__global__.auth_global.AuthUser;
 import com.localgaji.taxi.__global__.utils.ApiUtil.Response;
+import com.localgaji.taxi.party.cache.CachedPartySearchService;
 import com.localgaji.taxi.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,6 +49,15 @@ public class PartyController {
         return ResponseEntity.ok().body(success(responseBody));
     }
 
+    @GetMapping("/{partyId}/pickup")
+    @Operation(summary = "픽업 위치 조회")
+    public ResponseEntity<Response<GetPartyRes>> getPickup(@AuthUser User user,
+                                                           @PathVariable Long partyId) {
+        GetPartyRes responseBody = partyService.getPartyDetail(user, partyId);
+
+        return ResponseEntity.ok().body(success(responseBody));
+    }
+
     @PostMapping("/{partyId}/account")
     @Operation(summary = "파티에 계좌 등록")
     public ResponseEntity<Response<String>> postAccount(@AuthUser User user,
@@ -81,10 +91,32 @@ public class PartyController {
         return ResponseEntity.ok().body(success(response));
     }
 
-    @PostMapping("/party/_search")
+    @PostMapping("/_search")
     @Operation(summary = "조건에 맞는 파티 리스트 조회")
     public ResponseEntity<Response<GetPartiesSearchRes>> getSearchParty(@RequestBody GetPartiesSearchReq requestBody) {
         GetPartiesSearchRes response = locationService.partySearch(requestBody);
+        return ResponseEntity.ok().body(success(response));
+    }
+
+    @PostMapping("/_search/cte")
+    @Operation(summary = "조건에 맞는 파티 리스트 조회")
+    public ResponseEntity<Response<GetPartiesSearchRes>> getSearchParty2(@RequestBody GetPartiesSearchReq requestBody) {
+        GetPartiesSearchRes response = locationService.partySearchWithCTE(requestBody);
+        return ResponseEntity.ok().body(success(response));
+    }
+
+    @PostMapping("/_search/select")
+    @Operation(summary = "조건에 맞는 파티 리스트 조회")
+    public ResponseEntity<Response<GetPartiesSearchRes>> getSearchParty3(@RequestBody GetPartiesSearchReq requestBody) {
+        GetPartiesSearchRes response = locationService.partySearchSelectIndex(requestBody);
+        return ResponseEntity.ok().body(success(response));
+    }
+
+    private final CachedPartySearchService cachedPartySearchService;
+    @PostMapping("/_search/cache")
+    @Operation(summary = "조건에 맞는 파티 리스트 조회 : 캐싱")
+    public ResponseEntity<Response<GetPartiesSearchRes>> getSearchPartyCache(@RequestBody GetPartiesSearchReq requestBody) {
+        GetPartiesSearchRes response = cachedPartySearchService.search(requestBody);
         return ResponseEntity.ok().body(success(response));
     }
 }

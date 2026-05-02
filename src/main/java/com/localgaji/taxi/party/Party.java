@@ -18,7 +18,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity @Table(name = "party")
+@Entity @Table(name = "party",
+        indexes = {
+                @Index(name = "spatial_pickup_idx", columnList = "pickup_point"),
+                @Index(name = "spatial_dropoff_idx", columnList = "dropoff_point"),
+                @Index(name = "time_status_idx", columnList = "pickup_time, status")
+        })
 @Hidden @Getter @Builder @AllArgsConstructor @NoArgsConstructor
 public class Party {
     @Id
@@ -55,7 +60,7 @@ public class Party {
     @OneToMany(mappedBy = "party") @Builder.Default @NotNull
     private List<Passenger> passengers = new ArrayList<>();
 
-    @Column @Builder.Default @NotNull
+    @Column @Builder.Default @NotNull @Enumerated(value = EnumType.STRING)
     private PartyStatus status = PartyStatus.ACTIVE;
 
     @OneToMany(mappedBy = "party") @Builder.Default @NotNull
