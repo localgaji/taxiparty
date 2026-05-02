@@ -16,13 +16,14 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <logger name="com.localgaji.taxi" level="TRACE" />
+<!--    <logger name="com.localgaji.taxi" level="TRACE" />-->
+    <logger name="com.localgaji.taxi" level="DEBUG" />
 <!--    <logger name="org.hibernate.SQL" level="TRACE" />-->
 <!--    <logger name="org.hibernate.sql.results.jdbc.internal.DeferredResultSetAccess" level="TRACE" />-->
 <!--    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE" />-->
     <root level="WARN">
         <appender-ref ref="CONSOLE" />
-<!--        <appender-ref ref="FILE" />-->
+        <appender-ref ref="FILE" />
     </root>
 
 </configuration>
