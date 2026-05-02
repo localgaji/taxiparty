@@ -5,10 +5,10 @@ import com.localgaji.taxi.__global__.exception.ErrorType;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-@NoArgsConstructor
+//@NoArgsConstructor
 public abstract class AbstractBaseService<Entity> implements BaseService<Entity> {
 
-    private JpaRepository<Entity, Long> repository;
+    private final JpaRepository<Entity, Long> repository;
 
     protected AbstractBaseService(JpaRepository<Entity, Long> repository) {
         this.repository = repository;

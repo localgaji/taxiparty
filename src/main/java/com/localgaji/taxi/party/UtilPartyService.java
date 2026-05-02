@@ -5,11 +5,14 @@ import com.localgaji.taxi.__global__.exception.CustomException;
 import com.localgaji.taxi.__global__.exception.ErrorType;
 import com.localgaji.taxi.passenger.PassengerStatus;
 import com.localgaji.taxi.user.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor @Service
+@Service
 public class UtilPartyService extends AbstractBaseService<Party> {
+
+    public UtilPartyService(PartyRepository partyRepository) {
+        super(partyRepository);
+    }
 
     public Party findPartyByIdOr404(Long partyId) {
         return findByIdOr404(partyId);
@@ -24,12 +27,12 @@ public class UtilPartyService extends AbstractBaseService<Party> {
 
     /** 소속 팀원인지 확인 */
     public boolean isUserInParty(User user, Party party) {
-        Long userId = user.getUserId();
+        Long userId = user.getId();
 
         return party.getPassengers().stream()
                 .anyMatch(p ->
-                        userId.equals( p.getUser().getUserId() )
-                                || p.getStatus() == PassengerStatus.ACTIVE
+                        userId.equals( p.getUser().getId() )
+                                && p.getStatus() == PassengerStatus.ACTIVE
                 );
     }
 
@@ -42,12 +45,12 @@ public class UtilPartyService extends AbstractBaseService<Party> {
 
     /** 파티의 매니저인지 확인 */
     public boolean isManagerInParty(User manager, Party party) {
-        Long managerUserId = manager.getUserId();
+        Long managerUserId = manager.getId();
         return party.getPassengers().stream()
                 .anyMatch(p ->
-                        managerUserId.equals(p.getUser().getUserId())
-                                || p.getStatus() == PassengerStatus.ACTIVE
-                                || p.getIsManager()
+                        managerUserId.equals(p.getUser().getId())
+                                && p.getStatus() == PassengerStatus.ACTIVE
+                                && p.getIsManager()
                 );
     }
 }

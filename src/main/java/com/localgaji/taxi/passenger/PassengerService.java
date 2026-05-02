@@ -5,13 +5,11 @@ import com.localgaji.taxi.__global__.exception.ErrorType;
 import com.localgaji.taxi.party.Party;
 import com.localgaji.taxi.party.UtilPartyService;
 import com.localgaji.taxi.user.User;
-import com.localgaji.taxi.user.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.localgaji.taxi.passenger.dto.ResponsePassenger.*;
 
@@ -19,27 +17,34 @@ import static com.localgaji.taxi.passenger.dto.ResponsePassenger.*;
 @RequiredArgsConstructor
 public class PassengerService {
     private final PassengerRepository passengerRepository;
-    private final UserService userService;
     private final UtilPartyService utilPartyService;
 
     /** 파티 가입 */
+//    @org.springframework.transaction.annotation.Transactional(isolation= Isolation.READ_COMMITTED)
     @Transactional
     public void join(User user, Long partyId) {
         Party party = utilPartyService.findPartyByIdOr404(partyId);
+        List<Passenger> passengers = passengerRepository.findAllPassengerByPartyId(partyId);
+
+        // 인원 확인
+        if (getHeadcount(passengers) >= party.getMaxHeadcount()) {
+            throw new CustomException(ErrorType.ALREADY_CLOSED);
+        }
+
+        // 이미 가입 -> 예외처리
+        if (hasAlreadyJoin(user, passengers)) {
+            throw new CustomException(ErrorType.ALREADY_HAVE);
+        }
+
+        // 강퇴된 회원일 때 -> 예외처리
+        if (hasKicked(user, passengers)) {
+            throw new CustomException(ErrorType.FORBIDDEN);
+        }
+
         Passenger passenger = Passenger.builder()
                 .user(user)
                 .party(party)
                 .build();
-
-        // 이미 가입 -> 예외처리
-        if (utilPartyService.isUserInParty(user, party)) {
-            throw new CustomException(ErrorType.ALREADY_HAVE);
-        }
-
-        // 강퇴된 회원일 때
-        if (hasKicked(user, party)) {
-            throw new CustomException(ErrorType.FORBIDDEN);
-        }
 
         // 저장
         passengerRepository.save(passenger);
@@ -49,9 +54,8 @@ public class PassengerService {
     /** 파티 탈퇴 */
     @Transactional
     public void leave(User user, Long partyId) {
-        Party party = utilPartyService.findPartyByIdOr404(partyId);
-
-        Passenger passenger = findActivePassengerByUser(user, party)
+        Passenger passenger = passengerRepository
+                .findFirstByUserIdAndPartyIdAndStatusEquals(user.getId(), partyId, PassengerStatus.ACTIVE)
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
         passenger.leavePassenger();
@@ -66,8 +70,8 @@ public class PassengerService {
         utilPartyService.checkManagerInPartyOrThrow(manager, party);
 
         // 쫓아낼 유저 찾기
-        User kickUser = userService.findUserById(kickUserId);
-        Passenger passenger = findActivePassengerByUser(kickUser, party)
+        Passenger passenger = passengerRepository
+                .findFirstByUserIdAndPartyIdAndStatusEquals(kickUserId, partyId, PassengerStatus.ACTIVE)
                 .orElseThrow(() -> new CustomException(ErrorType.NOT_FOUND));
 
         // 쫓아내기
@@ -90,24 +94,28 @@ public class PassengerService {
         return new GetPassengersRes(passengers);
     }
 
-    /** 강퇴당한 멤버인지 확인 */
-    private boolean hasKicked(User user, Party party) {
-        Long userId = user.getUserId();
-        return party.getPassengers().stream()
+    private Integer getHeadcount(List<Passenger> passengers) {
+        return (int) passengers.stream()
+                .filter(p -> p.getStatus() == PassengerStatus.ACTIVE)
+                .count();
+    }
+
+    private Boolean hasAlreadyJoin(User user, List<Passenger> passengers) {
+        Long userId = user.getId();
+        return passengers.stream()
                 .anyMatch(p ->
-                        userId.equals( p.getUser().getUserId() )
-                                || p.getStatus() == PassengerStatus.KICKED_OUT
+                        userId.equals( p.getUser().getId() )
+                                && p.getStatus() == PassengerStatus.ACTIVE
                 );
     }
 
-    /** user & party 로 passenger entity 찾기 */
-    private Optional<Passenger> findActivePassengerByUser(User user, Party party) {
-        List<Passenger> passengers = party.getPassengers();
-        Long userId = user.getUserId();
+    /** 강퇴당한 멤버인지 확인 */
+    private boolean hasKicked(User user, List<Passenger> passengers) {
+        Long userId = user.getId();
         return passengers.stream()
-                .filter(p ->
-                        userId.equals( p.getUser().getUserId() )
-                                || p.getStatus() == PassengerStatus.ACTIVE
-                ).findAny();
+                .anyMatch(p ->
+                        userId.equals( p.getUser().getId() )
+                                && p.getStatus() == PassengerStatus.KICKED_OUT
+                );
     }
 }

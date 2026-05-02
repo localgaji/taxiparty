@@ -2,7 +2,7 @@ package com.localgaji.taxi.chat;
 
 import com.localgaji.taxi.party.QParty;
 import com.localgaji.taxi.passenger.PassengerStatus;
-import com.localgaji.taxi.party.passenger.QPassenger;
+import com.localgaji.taxi.passenger.QPassenger;
 import com.localgaji.taxi.user.QUser;
 import com.localgaji.taxi.user.User;
 import com.querydsl.core.Tuple;
@@ -62,7 +62,7 @@ public class ChatRepositoryCustomImpl implements ChatRepositoryCustom{
                 .on( passenger.status.eq(PassengerStatus.ACTIVE) )
                 .leftJoin(chat)
                 .on( chat.id.eq(latestChatSubQuery) )
-                .where( passenger.user.userId.eq(user.getUserId()) )
+                .where( passenger.user.id.eq(user.getId()) )
                 .fetch();
 
         return query.stream()

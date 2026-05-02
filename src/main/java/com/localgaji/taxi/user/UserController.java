@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.localgaji.taxi.__global__.utils.ApiUtil.*;
-import static com.localgaji.taxi.user.user_dto.ResponseUser.*;
+import static com.localgaji.taxi.user.dto.ResponseUser.*;
 
 @RestController
 @RequiredArgsConstructor

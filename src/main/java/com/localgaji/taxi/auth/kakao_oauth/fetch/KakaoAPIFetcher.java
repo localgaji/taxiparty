@@ -29,10 +29,9 @@ public class KakaoAPIFetcher {
     private final ObjectMapper objectMapper;
     private final RestClient restClient = RestClient.create();
 
-    public Long codeToKakaoId(String code) {
+    public String codeToKakaoId(String code) {
         String token = codeToKakaoToken(code);
-        String kakaoId = tokenToKakaoId(token);
-        return Long.parseLong(kakaoId);
+        return tokenToKakaoId(token);
     }
 
     // 1. 인가 코드로 카카오 토큰 호출

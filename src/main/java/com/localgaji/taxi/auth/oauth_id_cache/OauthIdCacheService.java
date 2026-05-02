@@ -12,7 +12,7 @@ public class OauthIdCacheService {
     private final OauthIdCacheRepository oauthIdCacheRepository;
 
     // 인증 캐시 생성
-    public void createCache(String code, OauthType oauthType, Long oauthId) {
+    public void createCache(String code, OauthType oauthType, String oauthId) {
         OauthIdCache newOauthIdCache = OauthIdCache.builder()
                 .code(code)
                 .oauthType(oauthType)

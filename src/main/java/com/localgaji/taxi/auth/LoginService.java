@@ -35,6 +35,6 @@ public class LoginService {
     }
 
     private String getJwt(User user) {
-        return jwtService.createJwt(user.getUserId());
+        return jwtService.createJwt(user.getId());
     }
 }
