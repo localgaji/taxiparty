@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.localgaji.taxi.party.PartyRepository.*;
 import static com.localgaji.taxi.party.dto.LocationDTO.*;
 import static com.localgaji.taxi.party.dto.RequestParty.*;
 import static com.localgaji.taxi.party.dto.ResponseParty.*;
@@ -37,17 +38,53 @@ public class PartyLocationService {
         Point departurePoint = newPoint( requestBody.departure() );
         Point dropoffPoint = newPoint( requestBody.dropoff() );
 
-        Slice<Party> nearestParties = partyRepository.findNearestParties(
-                departurePoint, 1000,
-                dropoffPoint, 1000,
-                requestBody.pickupTime(), 3600,
-                PageRequest.of(requestBody.page() - 1, 5)
+        Slice<PartyWithDistance> nearestParties = partyRepository.findNearestParties(
+                departurePoint, requestBody.departureRadiusMeter(),
+                dropoffPoint, requestBody.dropoffRadiusMeter(),
+                requestBody.pickupTime(), requestBody.rangeMinute(),
+                PageRequest.of(requestBody.page() - 1, 8)
         );
-
         List<SearchPartyDTO> parties = nearestParties.stream()
-                .map(party ->
-                        new SearchPartyDTO(party, "??")
+                .map(pwd ->
+                        new SearchPartyDTO( pwd.getParty(), pwd.getDistance() )
                 ).toList();
+        return new GetPartiesSearchRes( parties, nearestParties.hasNext() );
+    }
+
+    /** 파티 검색 결과 조회 : CTE 를 사용 */
+    public GetPartiesSearchRes partySearchWithCTE(GetPartiesSearchReq requestBody) {
+
+//        System.out.println("🔥 실제 DB 조회 실행!");
+
+        Point departurePoint = newPoint( requestBody.departure() );
+        Point dropoffPoint = newPoint( requestBody.dropoff() );
+
+        Slice<PartyNecessaryColumns> nearestParties = partyRepository.findNearestPartiesWithCTE(
+                departurePoint, requestBody.departureRadiusMeter(),
+                dropoffPoint, requestBody.dropoffRadiusMeter(),
+                requestBody.pickupTime(), requestBody.rangeMinute(),
+                PageRequest.of(requestBody.page() - 1, 8)
+        );
+        List<SearchPartyDTO> parties = nearestParties.stream()
+                .map(SearchPartyDTO::new)
+                .toList();
+        return new GetPartiesSearchRes( parties, nearestParties.hasNext() );
+    }
+
+    /** 파티 검색 결과 조회 */
+    public GetPartiesSearchRes partySearchSelectIndex(GetPartiesSearchReq requestBody) {
+        Point departurePoint = newPoint( requestBody.departure() );
+        Point dropoffPoint = newPoint( requestBody.dropoff() );
+
+        Slice<PartyNecessaryColumns> nearestParties = partyRepository.findNearestPartiesForceIndex(
+                departurePoint, requestBody.departureRadiusMeter(),
+                dropoffPoint, requestBody.dropoffRadiusMeter(),
+                requestBody.pickupTime(), requestBody.rangeMinute(),
+                PageRequest.of(requestBody.page() - 1, 8)
+        );
+        List<SearchPartyDTO> parties = nearestParties.stream()
+                .map(SearchPartyDTO::new)
+                .toList();
         return new GetPartiesSearchRes( parties, nearestParties.hasNext() );
     }
 
@@ -56,10 +93,10 @@ public class PartyLocationService {
         return gf.createPoint(coordinate);
     }
 
-    public AddressDTO locationToDTO(Address address, Point point) {
+    private AddressDTO locationToDTO(Address address, Point point) {
         return new AddressDTO(
                 address.getPlaceName(),
-                address.getRoadNameAddress(),
+                address.getRoadNameAddress().toStringAddress(),
                 pointToDTO(point)
         );
     }
