@@ -36,7 +36,7 @@ public class KakaoOAuthService {
     }
 
     public KakaoOAuth findKakaoOAuthByCode(String code) {
-        Long kakaoId = kakaoAPIFetcher.codeToKakaoId(code);
+        String kakaoId = kakaoAPIFetcher.codeToKakaoId(code);
         Optional<KakaoOAuth> optKakaoAuth = kakaoOAuthRepository.findByKakaoId(kakaoId);
         if (optKakaoAuth.isEmpty()) {
             oauthIdCacheService.createCache(code, OauthType.KAKAO, kakaoId);

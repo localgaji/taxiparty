@@ -1,7 +1,7 @@
 package com.localgaji.taxi.party.dto;
 
 import com.localgaji.taxi.address.Address;
-import com.localgaji.taxi.address.type.RoadNameAddress;
+import com.localgaji.taxi.address.type.RoadNameParser;
 
 public class LocationDTO {
 
@@ -13,12 +13,12 @@ public class LocationDTO {
 
     public record AddressDTO(
             String placeName,
-            RoadNameAddress roadNameAddress,
+            String roadNameAddress,
             CoordinateDTO coordinate
     ) {
         public Address toEntity() {
             return Address.builder()
-                    .roadNameAddress(this.roadNameAddress)
+                    .roadNameAddress( RoadNameParser.parse(this.roadNameAddress) )
                     .placeName(this.placeName)
                     .build();
         }

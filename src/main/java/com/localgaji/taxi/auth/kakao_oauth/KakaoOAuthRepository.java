@@ -7,6 +7,5 @@ import java.util.Optional;
 
 @Repository
 public interface KakaoOAuthRepository extends JpaRepository<KakaoOAuth, Long> {
-    Optional<KakaoOAuth> findByKakaoId(Long kakaoId);
-
+    Optional<KakaoOAuth> findByKakaoId(String kakaoId);
 }

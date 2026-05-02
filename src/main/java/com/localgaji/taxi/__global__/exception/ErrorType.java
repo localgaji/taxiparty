@@ -19,7 +19,11 @@ public enum ErrorType {
     MEMBER_NOT_FOUND(404, -12001, "유저 정보 없음"),
 
     ALREADY_HAVE(400, -20001, "이미 있음"),
-    ALREADY_CLOSED(400, -20002, "이미 처리");
+    ALREADY_CLOSED(400, -20002, "이미 처리"),
+
+    INVALID_ADDRESS(400, -21001, "도로명 주소 오류"),
+
+    ;
 
     private final int statusCode;
     private final int internalCode;

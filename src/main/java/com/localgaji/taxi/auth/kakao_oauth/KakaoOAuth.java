@@ -8,8 +8,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity @Table(name = "kakao_auth")
-@Getter @Builder @NoArgsConstructor @AllArgsConstructor
+@Entity @Table(name = "kakao_auth",
+        indexes = @Index(name = "idx_kakao_id", columnList = "kakao_id", unique = true)
+) @Getter @Builder @NoArgsConstructor @AllArgsConstructor
 public class KakaoOAuth {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +21,6 @@ public class KakaoOAuth {
     private User user;
 
     @Column @NotNull
-    private Long kakaoId;
+    private String kakaoId;
 
 }

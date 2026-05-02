@@ -42,6 +42,9 @@ public class RequestParty {
             CoordinateDTO departure,
             CoordinateDTO dropoff,
             LocalDateTime pickupTime,
+            Integer rangeMinute,
+            Integer departureRadiusMeter,
+            Integer dropoffRadiusMeter,
             Integer page
     ) {
     }

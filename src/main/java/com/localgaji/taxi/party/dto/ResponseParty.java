@@ -2,6 +2,7 @@ package com.localgaji.taxi.party.dto;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.party.Party;
+import com.localgaji.taxi.party.PartyRepository;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -90,14 +91,25 @@ public class ResponseParty {
             LocalDateTime pickupTime,
             String description
     ) {
-        public SearchPartyDTO(Party party, String departureToPickup) {
+        public SearchPartyDTO(Party party, Float departureToPickup) {
             this(
                     party.getId(),
                     party.getPickupAddress().getPlaceName(),
                     party.getDropoffAddress().getPlaceName(),
-                    departureToPickup,
+                    departureToPickup.intValue() + " m",
                     party.getPickupTime(),
                     party.getDescription()
+            );
+        }
+
+        public SearchPartyDTO(PartyRepository.PartyNecessaryColumns columns) {
+            this(
+                columns.getId(),
+                columns.getPickupPlaceName(),
+                columns.getDropoffPlaceName(),
+                columns.getDistance() + " m",
+                columns.getPickupTime(),
+                columns.getDescription()
             );
         }
     }

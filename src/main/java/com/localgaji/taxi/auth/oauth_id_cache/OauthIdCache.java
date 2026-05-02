@@ -21,7 +21,7 @@ public class OauthIdCache extends BaseTime {
     private String code;
 
     @Column @NotNull
-    private Long oauthId;
+    private String oauthId;
 
     @Column @NotNull
     private OauthType oauthType;
