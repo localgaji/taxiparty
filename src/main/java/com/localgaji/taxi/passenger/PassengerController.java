@@ -1,4 +1,4 @@
-package com.localgaji.taxi.party.passenger;
+package com.localgaji.taxi.passenger;
 
 import com.localgaji.taxi.__global__.auth_global.AuthUser;
 import com.localgaji.taxi.user.User;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.localgaji.taxi.__global__.utils.ApiUtil.*;
-import static com.localgaji.taxi.party.passenger.dto.ResponsePassenger.*;
+import static com.localgaji.taxi.passenger.dto.ResponsePassenger.*;
 
 @RestController
 @RequiredArgsConstructor

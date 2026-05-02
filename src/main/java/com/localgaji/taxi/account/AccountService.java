@@ -10,7 +10,8 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     @Transactional
-    public void addAccount(User user, Account account) {
+    public void addAccount(User user, RequestAccount dto) {
+        Account account = dto.toEntity(user);
         accountRepository.save(account);
         user.addAccount(account);
     }

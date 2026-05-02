@@ -2,8 +2,9 @@ package com.localgaji.taxi.party;
 
 import com.localgaji.taxi.account.Account;
 import com.localgaji.taxi.chat.Chat;
-import com.localgaji.taxi.party.passenger.Passenger;
+import com.localgaji.taxi.passenger.Passenger;
 import com.localgaji.taxi.address.Address;
+import com.localgaji.taxi.passenger.PassengerStatus;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -45,9 +46,6 @@ public class Party {
     @Column @NotNull
     private Integer maxHeadcount;
 
-    @Column @NotNull
-    private Integer headcount;
-
     @Column
     private Integer fare;
 
@@ -63,6 +61,12 @@ public class Party {
     @OneToMany(mappedBy = "party") @Builder.Default @NotNull
     @OrderBy("id asc")
     private List<Chat> chatList = new ArrayList<>();
+
+    public int getHeadcount() {
+        return (int) this.passengers.stream()
+                .filter(p -> p.getStatus() == PassengerStatus.ACTIVE)
+                .count();
+    }
 
     public void deleteParty() {
         this.status = PartyStatus.DELETED;
